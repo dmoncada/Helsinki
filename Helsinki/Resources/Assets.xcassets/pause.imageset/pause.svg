@@ -1,0 +1,4 @@
+<svg viewBox="0 0 80 100">
+  <polygon points="0,0 30,0 30,100 0,100"></polygon>
+  <polygon transform="translate(50 0)" points="0,0 30,0 30,100 0,100"></polygon>
+</svg>

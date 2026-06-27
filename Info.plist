@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>ATSApplicationFontsPath</key>
+	<string>.</string>
+	<key>UIAppFonts</key>
+	<array>
+		<string>DomaineDisplayCondensed-Medium.ttf</string>
+		<string>Pano-Bold.otf</string>
+		<string>Pitch-Regular.ttf</string>
+		<string>Pitch-Semibold.ttf</string>
+	</array>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>audio</string>
+	</array>
+</dict>
+</plist>

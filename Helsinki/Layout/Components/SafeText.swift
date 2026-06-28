@@ -10,7 +10,7 @@ struct SafeText: View {
   var body: some View {
     Text(text?.cleaned ?? "Unavailable")
       .opacity(text == nil ? 0 : 1)
-      .minimumScaleFactor(0.9)
+      .minimumScaleFactor(0.85)
       .scaledToFit()
       .lineLimit(1)
   }

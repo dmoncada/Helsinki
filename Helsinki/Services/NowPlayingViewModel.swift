@@ -26,11 +26,15 @@ final class NowPlayingViewModel {
 
   func poll(interval: Duration = .seconds(20)) async {
     while Task.isCancelled == false {
-      let response = await service.fetch()
-      program = response?.programs?.current
-      songs = response?.lastPlaying ?? []
       try? await Task.sleep(for: interval)
+      await load()
     }
+  }
+
+  func load() async {
+    let response = await service.fetch()
+    program = response?.programs?.current
+    songs = response?.lastPlaying ?? []
   }
 }
 

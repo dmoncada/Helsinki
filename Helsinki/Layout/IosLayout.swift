@@ -17,7 +17,6 @@ struct IosLayout: View {
     .padding()
     .withHelsinkiTopBar()
     .withHelsinkiBottomBar()
-    .task { await vm.poll() }
   }
 }
 

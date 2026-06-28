@@ -1,8 +1,7 @@
 import SwiftUI
 
 struct ContentView: View {
-  @State private var player = RadioPlayer()
-  @State private var viewModel = NowPlayingViewModel()
+  @Environment(NowPlayingViewModel.self) private var vm
 
   var body: some View {
     Group {
@@ -12,11 +11,10 @@ struct ContentView: View {
         MacosLayout()
       #endif
     }
-    .environment(player)
-    .environment(viewModel)
+    .task { await vm.poll() }
   }
 }
 
-#Preview {
+#Preview(traits: .modifier(Dependencies())) {
   ContentView()
 }

@@ -7,7 +7,7 @@ struct Dependencies: PreviewModifier {
   func body(content: Content, context: Void) -> some View {
     content
       .task {
-        await viewModel.poll(interval: .seconds(3600))
+        await viewModel.load()
       }
       .environment(player)
       .environment(viewModel)

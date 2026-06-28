@@ -4,16 +4,21 @@ struct PlaybackButton: View {
   let isPlaying: Bool
   let action: () -> Void
 
+  init(_ isPlaying: Bool, action: @escaping () -> Void) {
+    self.isPlaying = isPlaying
+    self.action = action
+  }
+
   var body: some View {
     Button(action: action) {
-      CircularRing()
-        .overlay {
-          Image(isPlaying ? .pause : .play)
-            .resizable()
-            .scaledToFit()
-            .scaleEffect(0.35)
-        }
-        .contentShape(.circle)
+      ZStack {
+        CircularRing()
+
+        Image(isPlaying ? .pause : .play)
+          .resizable()
+          .scaledToFit()
+          .scaleEffect(0.35)
+      }
     }
     .buttonStyle(.plain)
   }
@@ -21,28 +26,24 @@ struct PlaybackButton: View {
 
 private struct CircularRing: View {
   var body: some View {
-    Circle()
-      .fill(.foreground)
-      .overlay {
-        Circle()
-          .scaleEffect(0.85)
-          .blendMode(.destinationOut)
-      }
-      .compositingGroup()
+    ZStack {
+      Circle().fill(.foreground)
+      Circle().fill(.background).scaleEffect(0.85)
+    }
   }
 }
 
 #Preview {
-  let playing = false
+  @Previewable @State var playing = false
 
   VStack {
-    PlaybackButton(isPlaying: playing) {}
+    PlaybackButton(playing) { playing.toggle() }
       .frame(width: 60, height: 60)
 
-    PlaybackButton(isPlaying: playing) {}
+    PlaybackButton(playing) { playing.toggle() }
       .frame(width: 120, height: 120)
 
-    PlaybackButton(isPlaying: playing) {}
+    PlaybackButton(playing) { playing.toggle() }
       .frame(width: 180, height: 180)
       .foregroundStyle(.tint)
   }

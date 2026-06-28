@@ -2,28 +2,16 @@ import SwiftUI
 
 struct BottomBarModifier: ViewModifier {
   @Environment(RadioPlayer.self) private var player
-  @Environment(NowPlayingViewModel.self) private var viewModel
+  @Environment(NowPlayingViewModel.self) private var vm
 
   func body(content: Content) -> some View {
     content
       .safeAreaBar(edge: .bottom, alignment: .leading) {
-        HStack {
-          PlaybackButton(isPlaying: player.isPlaying) {
-            withAnimation(.smooth) {
-              player.toggle()
-            }
-          }
-
-          VStack(alignment: .leading, spacing: 0) {
-            SafeText(viewModel.programTitle)
-              .font(.panoBold(.headline))
-            SafeText(viewModel.songArtist)
-              .font(.pitchSemibold(.subheadline))
-            SafeText(viewModel.songTitle)
-              .font(.pitchRegular(.subheadline))
-          }
-          .frame(maxHeight: .infinity)
-        }
+        PlaybackControlSmall(
+          player,
+          vm.program,
+          vm.songs.first
+        )
         .frame(height: 60)
         .padding()
       }
@@ -34,4 +22,13 @@ extension View {
   func withHelsinkiBottomBar() -> some View {
     modifier(BottomBarModifier())
   }
+}
+
+#Preview(traits: .modifier(Dependencies())) {
+  Text("Hello, world!")
+    .frame(
+      maxWidth: .infinity,
+      maxHeight: .infinity
+    )
+    .withHelsinkiBottomBar()
 }

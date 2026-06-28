@@ -16,21 +16,22 @@ final class RadioPlayer {
   func play() {
     guard let streamUrl = Constants.streamUrl else { return }
 
-    configureAudioSession()
-
     let item = AVPlayerItem(url: streamUrl)
     let player = AVPlayer(playerItem: item)
     player.allowsExternalPlayback = false
-    player.play()
 
     self.player = player
     isPlaying = true
 
     statusTask = Task { [weak self] in
+      await Self.activateAudioSession()
+      if Task.isCancelled { return }
+      player.play()
+
       for await status in item.publisher(for: \.status).values {
         guard let self else { return }
         guard status == .failed else { continue }
-        self.handleFailure()
+        pause()
         break
       }
     }
@@ -39,13 +40,7 @@ final class RadioPlayer {
   func pause() {
     teardown()
     isPlaying = false
-    deactivateAudioSession()
-  }
-
-  private func handleFailure() {
-    teardown()
-    isPlaying = false
-    deactivateAudioSession()
+    Task { await Self.deactivateAudioSession() }
   }
 
   private func teardown() {
@@ -55,7 +50,8 @@ final class RadioPlayer {
     player = nil
   }
 
-  private func configureAudioSession() {
+  @concurrent
+  private nonisolated static func activateAudioSession() async {
     #if os(iOS)
       let session = AVAudioSession.sharedInstance()
       try? session.setCategory(.playback)
@@ -63,10 +59,11 @@ final class RadioPlayer {
     #endif
   }
 
-  private func deactivateAudioSession() {
+  @concurrent
+  private nonisolated static func deactivateAudioSession() async {
     #if os(iOS)
       let session = AVAudioSession.sharedInstance()
-      try? session.setActive(false, options: .notifyOthersOnDeactivation)
+      try? session.setActive(false)
     #endif
   }
 }

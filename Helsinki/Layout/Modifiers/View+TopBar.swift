@@ -17,3 +17,12 @@ extension View {
     modifier(TopBarModifier())
   }
 }
+
+#Preview {
+  Text("Hello, world!")
+    .frame(
+      maxWidth: .infinity,
+      maxHeight: .infinity
+    )
+    .withHelsinkiTopBar()
+}

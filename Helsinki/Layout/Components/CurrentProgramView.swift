@@ -1,21 +1,17 @@
 import SwiftUI
 
 struct CurrentProgramView: View {
-  let title: String?
-  let schedule: String?
-  let alignment: HorizontalAlignment
+  let program: Program?
 
-  init(title: String?, schedule: String?, alignment: HorizontalAlignment = .center) {
-    self.title = title
-    self.schedule = schedule
-    self.alignment = alignment
+  init(_ program: Program?) {
+    self.program = program
   }
 
   var body: some View {
-    VStack(alignment: alignment, spacing: 0) {
-      SafeText(title?.uppercased())
+    VStack(alignment: .leading, spacing: 0) {
+      SafeText(program?.title?.uppercased())
         .font(.displayCondensedMedium(.largeTitle))
-      SafeText(schedule)
+      SafeText(program?.schedule)
         .font(.panoBold(.title3))
     }
   }

@@ -35,7 +35,7 @@ final class NowPlayingViewModel {
 }
 
 extension Program {
-  fileprivate var schedule: String? {
+  var schedule: String? {
     guard
       let begin = Self.time(from: begin),
       let end = Self.time(from: end)

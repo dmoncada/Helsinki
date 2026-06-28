@@ -8,10 +8,16 @@ struct SafeText: View {
   }
 
   var body: some View {
-    Text(text ?? "Unavailable")
+    Text(text?.cleaned ?? "Unavailable")
       .opacity(text == nil ? 0 : 1)
       .minimumScaleFactor(0.9)
       .scaledToFit()
       .lineLimit(1)
+  }
+}
+
+extension String {
+  fileprivate var cleaned: Self {
+    self.trimmingCharacters(in: .whitespaces)
   }
 }

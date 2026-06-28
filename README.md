@@ -7,6 +7,8 @@
 
 A simple iOS client for [Radio Helsinki][1].
 
+The large playback button in the middle of the screen features an effect simulating ripples on water. You can watch a demo of the effect <a href="assets/demo.mp4">here</a>.
+
 <p align="center">
   <img src="assets/mockup@2x.png" width="300" alt="Helsinki — now playing (light)">
   &nbsp;&nbsp;

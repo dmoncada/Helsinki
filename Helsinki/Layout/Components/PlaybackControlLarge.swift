@@ -2,20 +2,20 @@ import SwiftUI
 
 struct PlaybackControlLarge: View {
   let player: RadioPlayer
+  let image: Data?
   let song: Song?
 
-  init(_ player: RadioPlayer, _ song: Song?) {
+  init(_ player: RadioPlayer, _ image: Data?, _ song: Song?) {
     self.player = player
+    self.image = image
     self.song = song
   }
-
-  @State private var artworkUrl: URL?
 
   var body: some View {
     VStack(spacing: 24) {
       ZStack {
-        if let artworkUrl {
-          WaterRippleSurface(artworkUrl: artworkUrl) {
+        if let image {
+          WaterRippleSurface(artwork: image) {
             withAnimation(.smooth) {
               player.toggle()
             }
@@ -30,17 +30,6 @@ struct PlaybackControlLarge: View {
       .frame(width: 320)
 
       CurrentSongView(song)
-    }
-    .onAppear {
-      pickArtwork()
-    }
-  }
-
-  private func pickArtwork() {
-    if artworkUrl == nil {
-      artworkUrl = Constants.images.randomElement().flatMap {
-        Constants.imagesUrl?.appendingPathComponent($0)
-      }
     }
   }
 }

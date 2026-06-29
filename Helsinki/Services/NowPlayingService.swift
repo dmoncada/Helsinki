@@ -11,7 +11,7 @@ final class NowPlayingService {
   private let userAgent =
     "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1 (KHTML, like Gecko) Version/17 Safari/605.1"
 
-  func fetch() async -> NowPlayingResponse? {
+  func fetchSongs() async -> NowPlayingResponse? {
     guard let endpoint = Constants.nowPlayingApi
     else { return nil }
 
@@ -33,6 +33,22 @@ final class NowPlayingService {
       } else {
         logger.error("Error: \(error)")
       }
+      return nil
+    }
+  }
+
+  func fetchImage() async -> Data? {
+    guard
+      let img = Constants.images.randomElement(),
+      let url = Constants.imagesUrl?.appendingPathComponent(img)
+    else { return nil }
+
+    do {
+      let (data, _) = try await URLSession.shared.data(from: url)
+      return data
+
+    } catch {
+      logger.error("Error: \(error)")
       return nil
     }
   }

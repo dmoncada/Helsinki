@@ -7,6 +7,7 @@ final class NowPlayingViewModel {
 
   private(set) var program: Program?
   private(set) var songs: [Song] = []
+  private(set) var image: Data?
 
   var programTitle: String? {
     program?.title
@@ -27,14 +28,24 @@ final class NowPlayingViewModel {
   func poll(interval: Duration = .seconds(20)) async {
     while Task.isCancelled == false {
       try? await Task.sleep(for: interval)
-      await load()
+      await loadSongs()
     }
   }
 
   func load() async {
-    let response = await service.fetch()
+    async let songsTask = loadSongs()
+    async let imageTask = loadImage()
+    _ = await (songsTask, imageTask)
+  }
+
+  func loadSongs() async {
+    let response = await service.fetchSongs()
     program = response?.programs?.current
     songs = response?.lastPlaying ?? []
+  }
+
+  func loadImage() async {
+    image = await service.fetchImage()
   }
 }
 

@@ -116,11 +116,9 @@ final class WaterRippleRenderer: NSObject, MTKViewDelegate {
 
   // MARK: - Public API
 
-  /// Loads the artwork to refract from a remote URL (sandbox allows
-  /// outgoing connections). Safe to call again to swap the image.
-  func loadArtwork(from url: URL) async {
+  /// Loads the artwork to refract from prefetched image bytes.
+  func loadArtwork(from data: Data) async {
     do {
-      let (data, _) = try await URLSession.shared.data(from: url)
       let loader = MTKTextureLoader(device: device)
       let texture = try await loader.newTexture(
         data: data,

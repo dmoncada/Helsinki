@@ -8,7 +8,7 @@ struct IosLayout: View {
     VStack(alignment: .leading) {
       CurrentProgramView(vm.program)
 
-      PlaybackControlLarge(player, vm.songs.first)
+      PlaybackControlLarge(player, vm.image, vm.songs.first)
         .frame(
           maxWidth: .infinity,
           maxHeight: .infinity

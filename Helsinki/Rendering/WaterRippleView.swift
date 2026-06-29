@@ -31,8 +31,8 @@ final class RippleModel {
     renderer = WaterRippleRenderer()
   }
 
-  func loadArtwork(from url: URL) async {
-    await renderer?.loadArtwork(from: url)
+  func loadArtwork(from data: Data) async {
+    await renderer?.loadArtwork(from: data)
   }
 
   /// Handles a tap/drag at a point in the view's local coordinate space.
@@ -100,7 +100,7 @@ struct MetalRippleView: PlatformViewRepresentable {
 /// A circular surface that refracts `artworkURL` like rippling water. Tap or
 /// drag (touch on iOS, mouse on macOS) to excite the surface.
 struct WaterRippleSurface: View {
-  let artworkUrl: URL
+  let artwork: Data
 
   /// Fired when the surface is released — on a tap-up anywhere in the circle,
   /// or when a drag ends. Lets the host treat the whole circle as a button.
@@ -136,8 +136,8 @@ struct WaterRippleSurface: View {
           }
         }
     )
-    .task(id: artworkUrl) {
-      await model.loadArtwork(from: artworkUrl)
+    .task {
+      await model.loadArtwork(from: artwork)
     }
   }
 }
